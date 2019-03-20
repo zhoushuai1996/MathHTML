@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="js/index.css">
     <script src="js/vue.min.js"></script>
-
+	<script src="js/Bmob-1.7.0.min.js"></script>
+	
 </head>
 
 <body>
@@ -109,17 +110,13 @@
                                 </div>
                                 <div class="form-group">
 									<label class="col-sm-2 control-label">运算项个数：</label>
-                                    <div class="input-group col-sm-4">
-											<select name="itemcount" class="form-control col-sm-4 " v-model="itemcount">
+                                    <div class="input-group col-sm-8">
+										<select name="itemcount" class="form-control col-sm-4 " v-model="itemcount">
 											<option value="2">2</option>
 											<option value="3">3</option>
 											<option value="4">4</option>
 										</select>
-									</div>
-                                </div>
-								<div class="form-group">
-                                    <label class="col-sm-2 control-label">运算目标：</label>
-                                    <div class="input-group col-sm-4">
+                                    <div class="input-group-addon">运算目标：</div>
 										<select name="rule" class="form-control col-sm-4 " v-model="rule">
 											<option value="1">求得数</option>
 											<option value="2">求运算项</option>
@@ -434,7 +431,7 @@
                                 <td :style="{padding:cellSpacing+'px '+cellPadding+'px'}" v-for="c in (cols-0)" >
                                     <template v-if="r > parseInt((res.length - (p - 1) * (pagerows-0) * (cols-0) + (cols - 1)) / (cols-0))">&nbsp;</template>
                                     <template v-if="(p-1) * (pagerows-0) * (cols-0) + (r-1) * (cols-0) + (c - 1) < res.length">
-                                        <span>{{formulaToString(res[ (p-1) * (pagerows-0) * (cols-0) + (r-1) * (cols-0) + (c - 1)].li) }}</span>
+                                        <span>{{formulaToString(res[ (p-1) * (pagerows-0) * (cols-0) + (r-1) * (cols-0) + (c - 1)].item) }}</span>
                                     </template>
                                 </td>
                             </tr>

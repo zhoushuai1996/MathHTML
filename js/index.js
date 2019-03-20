@@ -4,6 +4,8 @@ var haveWarning = false;
 var g_mul_result = []; // 范围内可能的乘积，每次变化时重算
 var g_divisor = []; // 整除时被除数可能值列表
 
+Bmob.initialize("35c1b0a4c67d455ed4d0a44323636000", "73ace548628229c78127e73f4fdb918a");
+
 function setWarning() {
 	haveWarning = true;
 	console.warn.apply(console, arguments);
@@ -691,7 +693,7 @@ var app = new Vue({
 				child_result_range = this.calcItemResultRange(items, child);
 				var merge_range = intersectionRange(item_user_range, child_result_range);
 				if( ! merge_range ) {
-					setError('    错误：本层运算符和下层结果范围没有交集');
+					setError('错误：本层运算符和下层结果范围没有交集');
 					// 没有交集，直接返回用户设置范围
 					item_new_range.min = item_user_range.min - 0;
 					item_new_range.max = item_user_range.max - 0;
@@ -913,11 +915,11 @@ var app = new Vue({
 				var inter_range = intersectionRange(parent_lor_range, {min: min - 0, max: max - 0});
 				if( ! inter_range ) {
 					// 此时只能尽量满足范围小的一层的要求，以小的范围为准？
-					setWarning('    警告：父层左|右值范围与当前层结果范围无交集：', JSON.stringify(parent_lor_range), JSON.stringify(result_range));
+					setWarning('警告：父层左|右值范围与当前层结果范围无交集：', JSON.stringify(parent_lor_range), JSON.stringify(result_range));
 				} else {
 					min = inter_range.min;
 					max = inter_range.max;
-					console.info('    提示：父层左|右值范围与当前层结果范围交集为：', JSON.stringify(inter_range));
+					console.info('提示：父层左|右值范围与当前层结果范围交集为：', JSON.stringify(inter_range));
 				}
 				// 子层结果 = 父层的左（或右）值，但结果范围是本层运算符所规定的结果范围，而不是父层的范围
 				result = this.genItemLORByRange(items, parent, {min:min, max:max, genotinarr:genotinarr, notinarr:notinarr, inarr:inarr});
@@ -1007,9 +1009,9 @@ var app = new Vue({
 						}
 					} 
 					if(!found) {
-						// 在范围(min~max)内找不到商(item.result)的合适乘数！只能放弃!
+						// 在范围(min~max)内找不到商(item.result)的合适乘数，放弃
 						if( tarr.length <= 0 ) {
-							setError('在范围('+min+'~'+max+')内找不到商('+item.result+')的合适乘数！只能放弃!');
+							setError('在范围('+min+'~'+max+')内找不到商('+item.result+')的合适乘数，放弃');
 						} else {
 							// 此时一般此数值是【素数】，无法
 							for(var i = 0; i < tarr.length; i++) {
@@ -1117,7 +1119,7 @@ var app = new Vue({
 			// 乘法可能有除不尽的情况，此时重新修正一下得数，以供上级使用？
 			var real_result = eval('('+item_lft+')' + items[index].operator + '('+item_rgt+')');
 			if ( real_result != items[index].result ) {
-				setWarning('    第', index, '层结果与之前随机生成的结果', items[index].result, '不一致，已经重新设置为新结果：', real_result);
+				setWarning('第', index, '层结果与之前随机生成的结果', items[index].result, '不一致，已经重新设置为新结果：', real_result);
 				items[index].result = real_result;
 			}
 			items[index].lft = parseInt(item_lft);
@@ -1194,16 +1196,17 @@ var app = new Vue({
 			this.res = [];
 			for (var i = 0; i < this.count; i++) {
 				var item = {
-					li: this.genOneFormula()
+					item: this.genOneFormula()
 				};
 				this.res.push(item);
 			}
 		},
 
 		doPrint: function () {
-				$("#print-part").wordExport("1");
-				//window.print();
+			$("#print-part").wordExport("1");
+			//window.print();
 		},
+		
 
 		blank: function (v) {
 			return '___';
